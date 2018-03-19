@@ -176,18 +176,64 @@ namespace MonoGame.Extended.Gui.Controls
             }
         }
 
-        public virtual void OnScrolled(int delta) { }
+        #region Control Actions & Handlers
 
-        public virtual bool OnKeyTyped(IGuiContext context, KeyboardEventArgs args) { return true; }
-        public virtual bool OnKeyPressed(IGuiContext context, KeyboardEventArgs args) { return true; }
+        public event EventHandler OnScrolledHandler;
+        public virtual void OnScrolled(int delta)
+        {
+            OnScrolledHandler?.Invoke(this, EventArgs.Empty);
+        }
 
-        public virtual bool OnFocus(IGuiContext context) { return true; }
-        public virtual bool OnUnfocus(IGuiContext context) { return true; }
+        public event EventHandler OnKeyTypedHandler;
+        public virtual bool OnKeyTyped(IGuiContext context, KeyboardEventArgs args)
+        {
+            OnKeyTypedHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
 
-        public virtual bool OnPointerDown(IGuiContext context, GuiPointerEventArgs args) { return true; }
-        public virtual bool OnPointerMove(IGuiContext context, GuiPointerEventArgs args) { return true; }
-        public virtual bool OnPointerUp(IGuiContext context, GuiPointerEventArgs args) { return true; }
-        
+        public event EventHandler OnKeyPressedHandler;
+        public virtual bool OnKeyPressed(IGuiContext context, KeyboardEventArgs args)
+        {
+            OnKeyPressedHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnFocusHandler;
+        public virtual bool OnFocus(IGuiContext context)
+        {
+            OnFocusHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnUnfocusHandler;
+        public virtual bool OnUnfocus(IGuiContext context)
+        {
+            OnUnfocusHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnPointerDownHandler;
+        public virtual bool OnPointerDown(IGuiContext context, GuiPointerEventArgs args)
+        {
+            OnPointerDownHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnPointerMoveHandler;
+        public virtual bool OnPointerMove(IGuiContext context, GuiPointerEventArgs args)
+        {
+            OnPointerMoveHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnPointerUpHandler;
+        public virtual bool OnPointerUp(IGuiContext context, GuiPointerEventArgs args)
+        {
+            OnPointerUpHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnPointerEnterHandler;
         public virtual bool OnPointerEnter(IGuiContext context, GuiPointerEventArgs args)
         {
             if (IsEnabled && !_isHovering)
@@ -195,9 +241,11 @@ namespace MonoGame.Extended.Gui.Controls
                 _isHovering = true;
                 HoverStyle?.Apply(this);
             }
+            OnPointerEnterHandler?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
+        public event EventHandler OnPointerLeaveHandler;
         public virtual bool OnPointerLeave(IGuiContext context, GuiPointerEventArgs args)
         {
             if (IsEnabled && _isHovering)
@@ -205,8 +253,11 @@ namespace MonoGame.Extended.Gui.Controls
                 _isHovering = false;
                 HoverStyle?.Revert(this);
             }
+            OnPointerLeaveHandler?.Invoke(this, EventArgs.Empty);
             return true;
         }
+
+        #endregion
 
         public virtual bool Contains(IGuiContext context, Point point)
         {
