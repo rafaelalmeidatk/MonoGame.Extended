@@ -373,7 +373,7 @@ namespace MonoGame.Extended.Gui.Controls
             if (Parent == null) IsLayoutRequired = true;
             else Parent.UpdateRootIsLayoutRequired();
 
-            Size = Size2.Empty;
+            //Size = Size2.Empty;
         }
 
         protected struct TextInfo
