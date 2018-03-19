@@ -137,8 +137,8 @@ namespace MonoGame.Extended.Gui
                 return;
             
             _preFocusedControl = FindControlAtPoint(args.Position);
-            OnPointerDownHandler?.Invoke(this, EventArgs.Empty);
             PropagateDown(_hoveredControl, x => x.OnPointerDown(this, args));
+            OnPointerDownHandler?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnPointerUp(GuiPointerEventArgs args)
@@ -154,8 +154,8 @@ namespace MonoGame.Extended.Gui
             }
 
             _preFocusedControl = null;
-            OnPointerUpHandler?.Invoke(this, EventArgs.Empty);
             PropagateDown(_hoveredControl, x => x.OnPointerUp(this, args));
+            OnPointerUpHandler?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnPointerMoved(GuiPointerEventArgs args)
