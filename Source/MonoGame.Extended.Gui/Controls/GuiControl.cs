@@ -176,10 +176,27 @@ namespace MonoGame.Extended.Gui.Controls
             }
         }
 
-        public virtual void OnScrolled(int delta) { }
+        #region Control Actions & Handlers
 
-        public virtual bool OnKeyTyped(IGuiContext context, KeyboardEventArgs args) { return true; }
-        public virtual bool OnKeyPressed(IGuiContext context, KeyboardEventArgs args) { return true; }
+        public event EventHandler OnScrolledHandler;
+        public virtual void OnScrolled(int delta)
+        {
+            OnScrolledHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnKeyTypedHandler;
+        public virtual bool OnKeyTyped(IGuiContext context, KeyboardEventArgs args)
+        {
+            OnKeyTypedHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        public event EventHandler OnKeyPressedHandler;
+        public virtual bool OnKeyPressed(IGuiContext context, KeyboardEventArgs args)
+        {
+            OnKeyPressedHandler?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
 
         public event EventHandler OnFocusHandler;
         public virtual bool OnFocus(IGuiContext context)
@@ -216,6 +233,7 @@ namespace MonoGame.Extended.Gui.Controls
             return true;
         }
 
+        public event EventHandler OnPointerEnterHandler;
         public virtual bool OnPointerEnter(IGuiContext context, GuiPointerEventArgs args)
         {
             if (IsEnabled && !_isHovering)
@@ -223,9 +241,11 @@ namespace MonoGame.Extended.Gui.Controls
                 _isHovering = true;
                 HoverStyle?.Apply(this);
             }
+            OnPointerEnterHandler?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
+        public event EventHandler OnPointerLeaveHandler;
         public virtual bool OnPointerLeave(IGuiContext context, GuiPointerEventArgs args)
         {
             if (IsEnabled && _isHovering)
@@ -233,8 +253,11 @@ namespace MonoGame.Extended.Gui.Controls
                 _isHovering = false;
                 HoverStyle?.Revert(this);
             }
+            OnPointerLeaveHandler?.Invoke(this, EventArgs.Empty);
             return true;
         }
+
+        #endregion
 
         public virtual bool Contains(IGuiContext context, Point point)
         {
@@ -350,7 +373,7 @@ namespace MonoGame.Extended.Gui.Controls
             if (Parent == null) IsLayoutRequired = true;
             else Parent.UpdateRootIsLayoutRequired();
 
-            Size = Size2.Empty;
+            //Size = Size2.Empty;
         }
 
         protected struct TextInfo
